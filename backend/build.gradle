@@ -1,0 +1,52 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.5.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'ch.fhnw'
+version = 'v1.0.0'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation project(':frontend')
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	compile 'com.fazecast:jSerialComm:[2.0.0,3.0.0)' 								//Serial Port Connection
+	compile 'io.jsonwebtoken:jjwt:0.2' 												//Webtoken
+	compile 'org.springframework.boot:spring-boot-starter-security:2.2.6.RELEASE' 	//Security
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.2.6.RELEASE'	//MariaDB
+	compile "org.mariadb.jdbc:mariadb-java-client"									//MariaDB
+	compile 'javax.xml.bind:jaxb-api:2.1'											//Provides a runtime binding framework for client applications
+
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'			//Spring Webflux
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'			//Spring WebSockets
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'io.projectreactor:reactor-test'
+
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'					// JUnit 5
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'					// JUnit 5
+}
+
+test {
+	useJUnitPlatform()
+}

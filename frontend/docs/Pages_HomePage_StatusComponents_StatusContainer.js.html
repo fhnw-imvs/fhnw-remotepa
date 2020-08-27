@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Pages/HomePage/StatusComponents/StatusContainer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Pages/HomePage/StatusComponents/StatusContainer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Copyright (c) 2020 FHNW, Switzerland. All rights reserved.
+// Licensed under MIT License. Initiated by HB9RYZ and HB9CQK.
+import React from 'react'
+import { useSelector } from "react-redux";
+import { Grid, makeStyles, Paper } from "@material-ui/core";
+import PaPanel from "./PaPanel";
+import InformationField from "./InformationField";
+import LedLeftPanel from "./LedLeftPanel";
+import LedRightPanel from "./LedRightPanel";
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        textAlign: 'center',
+        backgroundColor: theme.palette.paper.backgroundColor
+    },
+
+    overview: {
+        flexGrow: 1,
+        padding: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        textAlign: 'center',
+        backgroundColor: theme.palette.paperGrey.backgroundColor
+    },
+
+}));
+
+/**
+ * Displays the Container status. This contains the data of the status string
+ * @return Components with the data of the status string
+ * @constructor
+ */
+const StatusContainer = () => {
+    const classes = useStyles();
+
+    const message = useSelector(state => state.statusReducer.state);
+    let comp;
+
+    /**
+     * The individual marks for displaying the value PaOut {PaPanel}
+     */
+    const marksPaOut = [
+        {
+            value: 0,
+            label: '0',
+        },
+        {
+            value: 375,
+            label: '375',
+        },
+        {
+            value: 750,
+            label: '750',
+        },
+        {
+            value: 1125,
+            label: '1125',
+        },
+        {
+            value: 1500,
+            label: '1500',
+        },
+    ];
+
+    /**
+     * The individual marks for displaying the value PaI {PaPanel}
+     */
+    const marksPaI = [
+        {
+            value: 0,
+            label: '0',
+        },
+        {
+            value: 12.5,
+            label: '12.5',
+        },
+        {
+            value: 25,
+            label: '25',
+        },
+        {
+            value: 37.5,
+            label: '37.5',
+        },
+        {
+            value: 50,
+            label: '50',
+        },
+    ];
+
+    if (message != null) {
+        comp = message;
+    } else {
+        comp = " ";
+    }
+
+    return (
+        &lt;Grid container className={classes.root}>
+            &lt;div className={classes.root}>
+                &lt;Paper className={classes.paper} elevation={3}>
+
+                    &lt;Grid container spacing={3}>
+                        &lt;Grid item lg={6} md={6} xs={12}>
+                            &lt;LedLeftPanel selectedState={comp.standbyOperate}/>
+                        &lt;/Grid>
+
+                        &lt;Grid item lg={6} md={6} xs={12}>
+                            &lt;LedRightPanel rxTX={comp.rxTX}/>
+                        &lt;/Grid>
+                    &lt;/Grid>
+
+                    &lt;Grid container spacing={3}>
+                        &lt;Grid item lg={6} md={6} xs={12}>
+                            &lt;Paper className={classes.overview}>
+                                &lt;PaPanel name={"Pa Out"} value={comp.outputPower} marks={marksPaOut} step={75}
+                                         max={1500}/>
+                            &lt;/Paper>
+                        &lt;/Grid>
+
+                        &lt;Grid item lg={6} md={6} xs={12}>
+                            &lt;Paper className={classes.overview}>
+                                &lt;PaPanel name={"I Pa"} value={comp.ipa} marks={marksPaI} step={2.5} max={50}/>
+                            &lt;/Paper>
+                        &lt;/Grid>
+                    &lt;/Grid>
+
+                    &lt;Grid container className={classes.root}>
+                        &lt;Grid container spacing={2} justify="center">
+                            &lt;InformationField label={"IN"} value={comp.input}/>
+                            &lt;InformationField label={"BAND"} value={comp.selectedBand}/>
+                            &lt;InformationField label={"ANT"} value={comp.txAntenna}/>
+                            &lt;InformationField label={"OUT"} value={comp.powerLevel}/>
+                            &lt;InformationField label={"SWR"} value={comp.swrATU}/>
+                            &lt;InformationField label={"TEMP"} value={comp.temperatureUPR}/>
+                        &lt;/Grid>
+                    &lt;/Grid>
+                &lt;/Paper>
+            &lt;/div>
+        &lt;/Grid>
+    )
+
+};
+
+export default StatusContainer
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlertMessage.html">AlertMessage</a></li><li><a href="Body.html">Body</a></li><li><a href="BodyPP.html">BodyPP</a></li><li><a href="CommandContainer.html">CommandContainer</a></li><li><a href="DisplayContainer.html">DisplayContainer</a></li><li><a href="ErrorMessagePanel.html">ErrorMessagePanel</a></li><li><a href="Footer.html">Footer</a></li><li><a href="Header.html">Header</a></li><li><a href="HomePage.html">HomePage</a></li><li><a href="InformationField.html">InformationField</a></li><li><a href="LedLeftPanel.html">LedLeftPanel</a></li><li><a href="LedRightPanel.html">LedRightPanel</a></li><li><a href="LoginPage.html">LoginPage</a></li><li><a href="NotificationPanel.html">NotificationPanel</a></li><li><a href="PaPanel.html">PaPanel</a></li><li><a href="ProfilePage.html">ProfilePage</a></li><li><a href="StatusContainer.html">StatusContainer</a></li><li><a href="TableContent.html">TableContent</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alertReducer">alertReducer</a></li><li><a href="global.html#checkNumber">checkNumber</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Aug 26 2020 20:57:56 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

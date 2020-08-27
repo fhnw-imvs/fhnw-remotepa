@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Copyright (c) 2020 FHNW, Switzerland. All rights reserved.
+Licensed under MIT License. Initiated by HB9RYZ and HB9CQK.-->
+<!--logback configuration see: https://logback.qos.ch/manual/configuration.html-->
+<included>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>FHNW-RemotePA.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- http://logback.qos.ch/manual/appenders.html -->
+            <!-- rollover daily -->
+            <fileNamePattern>FHNW-RemotePA-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each file should be at most 100MB, keep 5 days worth of history, but at most 1GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING"/>
+    </root>
+
+    <!--common loggers-->
+    <logger name="com.fazecast" level="WARN"/>
+    <logger name="org.mariadb.jdbc" level="WARN" />
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="com.zaxxer.hikari.HikariDataSource" level="WARN"/>
+    <logger name="org.apache.catalina.core" level="WARN"/>
+    <logger name="org.apache.coyote" level="WARN"/>
+    <logger name="org.apache.tomcat" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+</included>

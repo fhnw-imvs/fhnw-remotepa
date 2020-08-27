@@ -1,0 +1,13 @@
+ch.fhnw.server
+ch.fhnw.server.comPort
+ch.fhnw.server.configuration
+ch.fhnw.server.constants
+ch.fhnw.server.controller
+ch.fhnw.server.exception
+ch.fhnw.server.handler
+ch.fhnw.server.model
+ch.fhnw.server.repository
+ch.fhnw.server.request
+ch.fhnw.server.response
+ch.fhnw.server.security
+ch.fhnw.server.service

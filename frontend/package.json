@@ -1,0 +1,48 @@
+{
+  "name": "fhnw-remotepa-frontend",
+  "version": "v1.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.9.10",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.49",
+    "env-cmd": "^10.1.0",
+    "history": "^4.10.1",
+    "jsdoc": "^3.6.4",
+    "net": "^1.0.2",
+    "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
+    "react-dom": "^16.13.1",
+    "react-hooks": "^1.0.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.3",
+    "react-stomp": "^5.0.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "stompjs": "latest",
+    "styled-components": "^5.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

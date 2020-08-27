@@ -1,0 +1,12 @@
+[Unit]
+Description=Java Service
+After=network.target
+
+[Service]
+WorkingDirectory= /home/pi
+ExecStart=java -jar /home/pi/remotepa.jar
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

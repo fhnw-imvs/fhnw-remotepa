@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Copyright (c) 2020 FHNW, Switzerland. All rights reserved.
+Licensed under MIT License. Initiated by HB9RYZ and HB9CQK.-->
+<configuration>
+    <!--logback configuration see: http://logback.qos.ch/manual/configuration.html#fileInclusion-->
+    <include resource="logback-base-config.xml"/>
+</configuration>

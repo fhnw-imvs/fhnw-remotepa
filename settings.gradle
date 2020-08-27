@@ -1,0 +1,3 @@
+rootProject.name = 'fhnw-remotepa'
+include 'frontend'
+include 'backend'

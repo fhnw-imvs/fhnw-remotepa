@@ -1,0 +1,44 @@
+#Copyright (c) 2020 FHNW, Switzerland. All rights reserved.
+#Licensed under MIT License. Initiated by HB9RYZ and HB9CQK.
+
+## Server Properties
+server:
+  port: 8080
+
+## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+spring:
+
+  # Active Profile
+  profiles:
+    active: prod
+
+  # Datasource Properties
+  datasource:
+    url: jdbc:mysql://localhost:3306/expert
+    driverClassName: org.mariadb.jdbc.Driver
+    username: admin
+    password: admin
+    initialization-mode: always
+
+  # Hibernate Properties
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
+## Websocket Properties
+websocket:
+  heartbeat:
+    server: 5000
+    client: 5000
+
+## JWT Properties
+jwt:
+  header: X-Authorization
+  secret: mySecret
+  expiration: 28800000 # 8 hours
+
+## USB Connection Properties
+serial:
+  comPort: /dev/ttyUSB0
+  baudRate: 115200

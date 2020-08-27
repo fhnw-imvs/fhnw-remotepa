@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ProfilePage/BodyPP.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ProfilePage/BodyPP.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useState} from 'react'
+import {Grid, InputAdornment, makeStyles, Paper} from "@material-ui/core";
+import {changeMode} from "../../_actions";
+import {useCookies} from 'react-cookie';
+import {useDispatch} from "react-redux";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
+import {useHistory} from "react-router-dom";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        textAlign: 'left',
+        backgroundColor: theme.palette.paper.backgroundColor
+    },
+
+    overview: {
+        flexGrow: 1,
+        padding: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        textAlign: 'center',
+        backgroundColor: theme.palette.paperGrey.backgroundColor
+    },
+
+    section: {
+        paddingBottom: theme.spacing(3),
+    },
+
+    form: {
+        '&amp; .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+    },
+
+}));
+
+/**
+ * The body part of the profile page. In this component the password can be changed and the mode (Bright / Dark) can be selected.
+ * @return The body part of the profile page consisting of 3 password fields and a switch toggle for the mode
+ * @constructor
+ */
+const BodyPP = () => {
+
+    const [cookie, setCookie] = useCookies();
+    const [openPasswordSet, setopenPasswordSet] = useState(false);
+    const [openPasswordNotSet, setopenPasswordNotSet] = useState(false);
+
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const apiUrl = process.env.REACT_APP_REST_URL;
+    let user = JSON.parse(localStorage.getItem('user'));
+    let checked;
+
+    /**
+     *  Password object
+     *  @type {{oldPassword: string, newPassword: string, confirmPassword: string, showOldPassword: boolean, showNewPassword: boolean, showConfirmPassword: boolean}}
+     */
+    const [password, setPassword] = React.useState({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        showOldPassword: false,
+        showNewPassword: false,
+        showConfirmPassword: false
+    });
+
+    /**
+     *  Checks whether the form is valid
+     *  @return {boolean} true, if form is valid otherwise false
+     */
+    const validateForm = () => {
+        return (
+            password.oldPassword.length > 7 &amp;&amp;
+            password.newPassword.length > 7 &amp;&amp;
+            password.newPassword === password.confirmPassword
+        );
+    };
+
+    /**
+     *  Changes the respective password in the password object
+     *  @param {event} event - event raised by entering passwords
+     *  @return void
+     */
+    const handleFieldChange = (event) => {
+        const {name, value} = event.target;
+        setPassword({...password, [name]: value});
+    };
+
+    /**
+     * Executes a POST request to the backend with the password data from the password object
+     * @return {Promise&lt;void>}
+     */
+    async function handleSetPasswordClick() {
+        // POST request using fetch with error handling
+        const requestOptions = {
+            method: "POST",
+            headers: {'Content-Type': 'application/json', 'X-Authorization': 'Bearer ' + user.token},
+            body: JSON.stringify({oldPassword: password.oldPassword, newPassword: password.newPassword})
+        };
+        fetch(apiUrl + "/profile", requestOptions)
+            .then(async response => {
+                const data = await response.json();
+
+                // check for error response
+                if (!response.ok) {
+                    // get error message from body or default to response status
+                    const error = (data &amp;&amp; data.message) || response.status;
+                    return Promise.reject(error);
+                } else {
+                    setopenPasswordSet(true);
+                    setPassword({
+                        oldPassword: "",
+                        newPassword: "",
+                        confirmPassword: "",
+                        showOldPassword: false,
+                        showNewPassword: false,
+                        showConfirmPassword: false
+                    })
+                }
+
+                /*                this.setState({ postId: data.id })*/
+            })
+            .catch(error => {
+                setopenPasswordNotSet(true);
+                /*                this.setState({ errorMessage: error.toString() });*/
+                console.error('There was an error!', error);
+            });
+    }
+
+    /**
+     *  Calls the method for setting the cookie {setCookieValue} and stores the new value in the state
+     *  @param {event} event - event by changing the mode
+     */
+    const handleCookieChange = (event) => {
+        dispatch(changeMode(event.target.checked));
+        setCookieValue(event);
+    };
+
+    /**
+     *  Sets a cookie for the selected mode, so that when the page is refreshed, the selected mode remains.
+     *  @param {event} event - event by changing the mode
+     *  @return void
+     */
+    const setCookieValue = (event) => {
+        setCookie('mode', event.target.checked, {sameSite: 'none', secure: true});
+    };
+
+    if (cookie.mode === "true") {
+        checked = Boolean(true);
+    } else {
+        checked = Boolean(false);
+    }
+
+    /**
+     *
+     */
+    const handlePasswordSetClose = () => {
+        setopenPasswordSet(false);
+        history.push("/login")
+    };
+
+    const handlePasswordNotSetClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setopenPasswordNotSet(false);
+    };
+
+    /**
+     *  Shows the password in plain text based on the parameter
+     *  @param {string} pw - Shortcut for selected password
+     *  @return void
+     */
+    const handleClickShowPassword = (pw) => {
+        switch (pw) {
+            case 'OP':
+                return setPassword({...password, showOldPassword: !password.showOldPassword});
+
+            case 'NP':
+                return setPassword({...password, showNewPassword: !password.showNewPassword});
+
+            case 'CP':
+                return setPassword({...password, showConfirmPassword: !password.showConfirmPassword});
+        }
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    /**
+     *  Redirects back to the homepage
+     *  @return void
+     */
+    const handleHome = () => {
+        history.push("/")
+    };
+
+    return (
+        &lt;Grid container className={classes.root}>
+            &lt;div className={classes.root}>
+                &lt;Paper className={classes.paper} elevation={3}>
+                    &lt;h1>Profilanpassungen&lt;/h1>
+                    &lt;div className={classes.section}>
+                        &lt;h3>Passwortänderung&lt;/h3>
+
+                        &lt;form className={classes.form} noValidate autoComplete="off">
+                            &lt;div>
+                                &lt;TextField
+                                    id="oldPassword"
+                                    name="oldPassword"
+                                    label="Altes Password"
+                                    type={password.showOldPassword ? 'text' : 'password'}
+                                    autoComplete="current-password"
+                                    // variant="outlined"
+                                    onChange={handleFieldChange}
+                                    value={password.oldPassword}
+                                    InputProps={{
+                                        endAdornment: (
+                                            &lt;InputAdornment position="end">
+                                                &lt;IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => handleClickShowPassword('OP')}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {password.showOldPassword ? &lt;Visibility/> : &lt;VisibilityOff/>}
+                                                &lt;/IconButton>
+                                            &lt;/InputAdornment>
+                                        )
+                                    }}
+                                />
+
+                                &lt;TextField
+                                    id="newPassword"
+                                    name="newPassword"
+                                    label="Neues Password"
+                                    type={password.showNewPassword ? 'text' : 'password'}
+                                    autoComplete="current-password"
+                                    // variant="outlined"
+                                    onChange={handleFieldChange}
+                                    value={password.newPassword}
+                                    helperText="Mind. 8 Zeichen"
+                                    InputProps={{
+                                        endAdornment: (
+                                            &lt;InputAdornment position="end">
+                                                &lt;IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => handleClickShowPassword('NP')}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {password.showNewPassword ? &lt;Visibility/> : &lt;VisibilityOff/>}
+                                                &lt;/IconButton>
+                                            &lt;/InputAdornment>
+                                        )
+                                    }}
+                                />
+
+                                &lt;TextField
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    label="Password wiederholen"
+                                    type={password.showConfirmPassword ? 'text' : 'password'}
+                                    // autoComplete="current-password"
+                                    // variant="outlined"
+                                    onChange={handleFieldChange}
+                                    value={password.confirmPassword}
+                                    InputProps={{
+                                        endAdornment: (
+                                            &lt;InputAdornment position="end">
+                                                &lt;IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => handleClickShowPassword('CP')}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {password.showConfirmPassword ? &lt;Visibility/> : &lt;VisibilityOff/>}
+                                                &lt;/IconButton>
+                                            &lt;/InputAdornment>
+                                        )
+                                    }}
+                                />
+                            &lt;/div>
+                            &lt;Button variant="contained" color="primary" onClick={handleSetPasswordClick}
+                                    disabled={!validateForm()}>
+                                Passwort setzen
+                            &lt;/Button>
+                        &lt;/form>
+                    &lt;/div>
+                    &lt;div className={classes.section}>
+                        &lt;h3>Modus&lt;/h3>
+                        &lt;FormControlLabel
+                            edge="end"
+                            control={&lt;Switch checked={checked} onChange={handleCookieChange}
+                                             name="checked" color={"primary"}/>}
+                            label="Dark Mode"
+                        />
+                    &lt;/div>
+                    &lt;Button variant="contained" color="primary" onClick={handleHome}>
+                        Zurück
+                    &lt;/Button>
+
+                &lt;/Paper>
+            &lt;/div>
+
+            &lt;Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={openPasswordSet}
+                autoHideDuration={6000}
+                onClose={handlePasswordSetClose}
+                message="Password set"
+                action={
+                    &lt;React.Fragment>
+                        &lt;IconButton size="small" aria-label="close" color="inherit" onClick={handlePasswordSetClose}>
+                            &lt;CloseIcon fontSize="small"/>
+                        &lt;/IconButton>
+                    &lt;/React.Fragment>
+                }
+            />
+
+            &lt;Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={openPasswordNotSet}
+                autoHideDuration={6000}
+                onClose={handlePasswordNotSetClose}
+                message="Error, password not set!"
+                action={
+                    &lt;React.Fragment>
+                        &lt;IconButton size="small" aria-label="close" color="secondary"
+                                    onClick={handlePasswordNotSetClose}>
+                            &lt;CloseIcon fontSize="small"/>
+                        &lt;/IconButton>
+                    &lt;/React.Fragment>
+                }
+            />
+        &lt;/Grid>
+    )
+};
+
+export default BodyPP
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Body.html">BodyPP</a></li><li><a href="CommandContainer.html">CommandContainer</a></li><li><a href="DisplayContainer.html">DisplayContainer</a></li><li><a href="ErrorMessagePanel.html">ErrorMessagePanel</a></li><li><a href="Footer.html">Footer</a></li><li><a href="Header.html">Header</a></li><li><a href="HomePage.html">HomePage</a></li><li><a href="InformationField.html">InformationField</a></li><li><a href="LedLeftPanel.html">LedLeftPanel</a></li><li><a href="LedRightPanel.html">LedRightPanel</a></li><li><a href="LoginPage.html">LoginPage</a></li><li><a href="NotificationPanel.html">NotificationPanel</a></li><li><a href="PaPanel.html">PaPanel</a></li><li><a href="ProfilePage.html">ProfilePage</a></li><li><a href="StatusContainer.html">StatusContainer</a></li><li><a href="TableContent.html">TableContent</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkNumber">checkNumber</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Jul 18 2020 12:49:17 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

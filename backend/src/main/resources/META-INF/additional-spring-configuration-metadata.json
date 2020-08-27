@@ -1,0 +1,38 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Secret key to generate JWT Token."
+    },
+    {
+      "name": "jwt.header",
+      "type": "java.lang.String",
+      "description": "Header naming for JWT Token."
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.String",
+      "description": "Set the time how long the token is valid."
+    },
+    {
+      "name": "websocket.heartbeat.server",
+      "type": "java.lang.String",
+      "description": "Set the intervall for the heartbeat."
+    },
+    {
+      "name": "websocket.heartbeat.client",
+      "type": "java.lang.String",
+      "description": "Set the intervall for the heartbeat."
+    },
+    {
+      "name": "serial.comPort",
+      "type": "java.lang.String",
+      "description": "Set the serial port description."
+    },
+    {
+      "name": "serial.baudRate",
+      "type": "java.lang.String",
+      "description": "Set the baudrate for the serial connection."
+    }
+  ] }
