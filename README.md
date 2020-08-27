@@ -1,5 +1,5 @@
 # FHNW-RemotePA
-This application includes the FHNW-RemotePA Frontend & Backend implementation.
+A remote solution for an amateur radio amplifier.
 
 ## Contributors
 * see [CONTRIBUTORS](./CONTRIBUTORS.md)
