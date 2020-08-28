@@ -1,5 +1,6 @@
-# FHNW-RemotePA
-A remote solution for an amateur radio amplifier.
+# FHNW Remote PA
+A remote application for spe expert 1.3k-fa amateur radio amplifier.
+Connect your power amplifier via the USB port to the Raspberry Pi and start the web server to control your device from remote.
 
 ## Contributors
 * see [CONTRIBUTORS](./CONTRIBUTORS.md)
