@@ -2,6 +2,8 @@
 A remote application for spe expert 1.3k-fa amateur radio amplifier.
 Connect your power amplifier via the USB port to the Raspberry Pi and start the web server to control your device from remote.
 
+![Image of Remote PA and our solution](images/remotePA_WebApp.png)
+
 ## Contributors
 * see [CONTRIBUTORS](./CONTRIBUTORS.md)
 
