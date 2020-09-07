@@ -1,3 +1,9 @@
+# v1.0.1
+* Update ReadMe file with image
+
+## Done
+* Add an image of the current solution
+
 # v1.0.0
 * Publish release v1.0.0
 
