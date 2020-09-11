@@ -3,7 +3,12 @@
 
 ## Server Properties
 server:
-  port: 8080
+  port: 443
+  ssl:
+    enabled: true
+    key-store: classpath:cert/remotepa.pks
+    key-store-type: PKCS12
+    key-store-password: Welcome01
 
 ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
 spring:
