@@ -27,11 +27,11 @@ Run the following commands to install and configure the **MariaDB** on your Rasp
 ## Start server
 * download the latest version of the application (.jar) from [GitHub Releases](https://github.com/fhnw-imvs/fhnw-remotepa/releases)
 * copy your JAR file with WinSCP, VNC or something else to your Raspbian to the path **/home/pi/**
-* start your server with `java -jar /home/pi/remotepa.jar`
-* access the webserver with your browser about **https://your-ip-address**
+* start your server with `sudo java -jar /home/pi/remotepa.jar`
+* access the webserver with your browser about **https://your-ip-address:8443**
 
 ### NOTES
-* if you start your server the first time use this command `java -jar -Dspring.profiles.active=dev /home/pi/remotepa.jar`
+* if you start your server the first time use this command `sudo java -jar -Dspring.profiles.active=dev /home/pi/remotepa.jar`
  with this command the server creates a new webserver login with username **admin** and password **admin**. Defined in class [ApplicationStartup](../backend/src/main/java/ch/fhnw/server/ApplicationStartup.java)
 
 ## Install service on Raspbian for automatic server start

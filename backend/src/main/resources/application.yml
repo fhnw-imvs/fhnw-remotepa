@@ -3,7 +3,7 @@
 
 ## Server Properties
 server:
-  port: 443
+  port: 8443
   ssl:
     enabled: true
     key-store: classpath:cert/remotepa.pks

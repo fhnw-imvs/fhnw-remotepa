@@ -20,7 +20,7 @@ There are multiple ways for running the application locally:
    2. `gradle bootRun` (needs to be run in the `root` or `backend` folder)
    
 #### NOTES
-* your full stack application will be available on https://localhost
+* your full stack application will be available on https://localhost:8443
 * `gradle bootRun` `build` etc. use the compiled sources of the `frontend/build` if found.
 * in some cases npm may cause exceptions like `File not found` etc. in this case it is recommended to clean or delete the `node_modules` folder
 
