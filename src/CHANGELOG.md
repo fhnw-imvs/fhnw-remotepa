@@ -1,3 +1,11 @@
+# v1.1.0
+* Implemented TLS connection
+
+## Done
+* Add certificate
+* Configure port redirection
+* Customize documentation
+
 # v1.0.1
 * Update ReadMe file with image
 
