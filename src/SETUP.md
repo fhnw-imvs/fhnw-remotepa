@@ -1,6 +1,8 @@
-# Server Setup
+# User manual
+**This version is delivered with default settings. For security reasons we recommend creating your own version described in [DEVELOPER GUIDE](DEVELOPER.md)**
+
 Our environment is running and tested on a Raspberry Pi 3 with Raspbian Buster Lite.
-We recommend that you connect to your Linux via SSH or VNC for configuration.
+We recommend that you connect to your Linux via SSH or VNC for the configuration.
 
 ## Requirements
 Run the following commands to install the **OpenJDK 11** on your Raspberry Pi: 
@@ -19,21 +21,22 @@ Run the following commands to install and configure the **MariaDB** on your Rasp
 * close the SQL console with `CTRL + C`
 
 ### Notes
-* if you use a different password while creating the account `'admin'@'localhost'` you have to change it in the configuration [application.yml](./backend/src/main/resources/application.yml) and rebuild the application. (spring:datasource:password)
-* for security reasons we recommend changing the **jwt:secret** in configuration [application.yml](./backend/src/main/resources/application.yml) and rebuild the application. 
+* if you use a different password while creating the account `'admin'@'localhost'` you have to change it in the configuration [application.yml](../backend/src/main/resources/application.yml) and rebuild the application. (spring:datasource:password)
+* for security reasons we recommend changing the **jwt:secret** in configuration [application.yml](../backend/src/main/resources/application.yml) and rebuild the application. 
 
 ## Start server
-* copy your JAR file ([Create JAR file for server](./README.md)) with WinSCP, VNC or something else to your Raspbian to the path **/home/pi/**
-* start your server with `java -jar /home/pi/remotepa.jar`
-* access the webserver with your browser about **http://<ip-address>:8080**
+* download the latest version of the application (.jar) from [GitHub Releases](https://github.com/fhnw-imvs/fhnw-remotepa/releases)
+* copy your JAR file with WinSCP, VNC or something else to your Raspbian to the path **/home/pi/**
+* start your server with `sudo java -jar /home/pi/remotepa.jar`
+* access the webserver with your browser about **https://your-ip-address:8443**
 
 ### NOTES
-* if you start your server the first time use this command `java -jar -Dspring.profiles.active=dev /home/pi/remotepa.jar`
- with this command the server creates a new webserver login with username **admin** and password **admin**. Defined in class [ApplicationStartup](./backend/src/main/java/ch/fhnw/server/ApplicationStartup.java)
+* if you start your server the first time use this command `sudo java -jar -Dspring.profiles.active=dev /home/pi/remotepa.jar`
+ with this command the server creates a new webserver login with username **admin** and password **admin**. Defined in class [ApplicationStartup](../backend/src/main/java/ch/fhnw/server/ApplicationStartup.java)
 
 ## Install service on Raspbian for automatic server start
 * create a new file `sudo nano remotepa.service`
-* copy&paste [this data](./expertapp.service) to your new file (change path, file name and user / leave with ctrl + x)
+* copy&paste [this data](expertapp.service) to your new file (change path, file name and user / leave with ctrl + x)
 * copy the new file to the service folder `sudo cp remotepa.service /etc/systemd/system/remotepa.service`
 * start service manually `sudo systemctl start remotepa.service`
 * wait 2 minutes and check if your webserver is available
@@ -46,5 +49,5 @@ If you want to publish your website to public but don't have a public IP, you ca
 * install [Ngrok](https://ngrok.com)
 
 ## License
-This project is licensed under the MIT License, see [LICENSE](LICENSE).
+This project is licensed under the MIT License, see [LICENSE](../LICENSE).
 
